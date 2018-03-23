@@ -1,23 +1,27 @@
-// 1からcount までの fizzbuzz を 実行するメソッド
-function showFizzBuzz(count) {
+/**
+ * 1からcount までの fizzbuzz を 実行するメソッド
+ * @param {number} count いくつまでfizzbuzz を行うかを指定する数値.
+ * @return {Array} fizzBuzzResult fizzbuzz の結果を 詰めた配列.
+ */
+function fizzBuzz(count) {
     'use strict';
-    let fizzbuzz_result = []; // []で宣言してあげないとコケる.
+    let fizzBuzzResult = []; // []で宣言してあげないとコケる.
     // new Array(hoge) という 宣言も可能。その場合、 hoge は int で、 長さが hoge の array を宣言したことになる。
     for (var i = 1; i <= count; i++) {
         if (i % 15 == 0) {
-            fizzbuzz_result.push('FizzBuzz');
+            fizzBuzzResult.push('FizzBuzz');
         } else if (i % 5 == 0) {
-            fizzbuzz_result.push('Buzz');
+            fizzBuzzResult.push('Buzz');
         } else if (i % 3 == 0) {
-            fizzbuzz_result.push('Fizz');
+            fizzBuzzResult.push('Fizz');
         } else {
-            fizzbuzz_result.push(i);
+            fizzBuzzResult.push(i);
         }
     }
-    return fizzbuzz_result; // ruby ばっかり書いていて、return を 書くのを 最初は忘れてた。
+    return fizzBuzzResult; // ruby ばっかり書いていて、return を 書くのを 最初は忘れてた。
 }
 
-let result = showFizzBuzz(100);
+let result = fizzBuzz(100);
 
 for (value of result) {
     console.log(value);
