@@ -1,0 +1,2 @@
+# purpose
+To practice JavaScript
