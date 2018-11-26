@@ -78,8 +78,7 @@ class Game extends React.Component {
 
   render() {
     let squares = this.state.squares
-    let winner = calculateWinner(squares)
-    let status = this.createStatusMsg(winner, this.state.xIsNext)
+    let status = this.createStatusMsg(calculateWinner(squares), this.state.xIsNext)
 
     return (
       <div className="game">
