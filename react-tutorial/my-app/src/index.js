@@ -51,11 +51,18 @@ class Game extends React.Component {
     this.state = {
       squares: Array(9).fill(null),
       xIsNext: true,
+      // ここで履歴をもたせる
+      history: [{
+          squares: Array(9).fill(null),
+      }],
+      stepNumber: 0,
     };
   }
 
   handleClick(i) {
-    let squares = this.state.squares.slice();
+    let history = this.state.history;
+    let current = history[history.length - 1];
+    let squares = current.squares.slice();
     if(calculateWinner(squares) || squares[i]) {
       return;
     }
@@ -64,6 +71,7 @@ class Game extends React.Component {
     this.setState({
         squares: squares,
         xIsNext: !this.state.xIsNext,
+        history: history.concat([{squares: squares}]),
     });
   };
 
@@ -76,22 +84,41 @@ class Game extends React.Component {
     }
   }
 
+  jumpTo(step) {
+    this.setState({
+      stepNumber: step,
+      xIsNext: (step % 2) === 0,
+    })
+  }
+
   render() {
     let squares = this.state.squares
     let status = this.createStatusMsg(calculateWinner(squares), this.state.xIsNext)
+    let history = this.state.history;
+    let moves = history.map((step, move) => {
+      let desc = move ?
+        'Go to move #' + move :
+        'Go to game start';
+      return (
+        <li key={move}>
+        <button onClick={() => this.jumpTo(move)}>
+          {desc}
+        </button>
+        </li>
+      );
+    });
 
     return (
       <div className="game">
         <div className="game-board">
-          <div>{status}</div>
           <Board
             squares={this.state.squares}
             onClick={i => this.handleClick(i)}
           />
         </div>
         <div className="game-info">
-          <div>{/* status */}</div>
-          <ol>{/* TODO */}</ol>
+          <div>{status}</div>
+          <ol>{moves}</ol>
         </div>
       </div>
     );
