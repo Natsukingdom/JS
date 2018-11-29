@@ -60,18 +60,19 @@ class Game extends React.Component {
   }
 
   handleClick(i) {
-    let history = this.state.history;
+    let history = this.state.history.slice(0, this.state.stepNumber + 1);
     let current = history[history.length - 1];
     let squares = current.squares.slice();
-    if(calculateWinner(squares) || squares[i]) {
+    if (calculateWinner(squares) || squares[i]) {
       return;
     }
     squares[i] = this.state.xIsNext ? 'X' : 'O';
     // stateに対して上書きする．
     this.setState({
-        squares: squares,
+        squares: current.squares.slice(),
         xIsNext: !this.state.xIsNext,
         history: history.concat([{squares: squares}]),
+        stepNumber: history.length,
     });
   };
 
@@ -92,9 +93,9 @@ class Game extends React.Component {
   }
 
   render() {
-    let squares = this.state.squares
-    let status = this.createStatusMsg(calculateWinner(squares), this.state.xIsNext)
     let history = this.state.history;
+    let current = history[this.state.stepNumber];
+    let status = this.createStatusMsg(calculateWinner(current.squares), this.state.xIsNext)
     let moves = history.map((step, move) => {
       let desc = move ?
         'Go to move #' + move :
@@ -112,7 +113,7 @@ class Game extends React.Component {
       <div className="game">
         <div className="game-board">
           <Board
-            squares={this.state.squares}
+            squares={current.squares}
             onClick={i => this.handleClick(i)}
           />
         </div>
